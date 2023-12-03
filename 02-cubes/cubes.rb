@@ -7,8 +7,8 @@ lines = [
 ]
 
 elf_red = 12
-elf_blue = 14
 elf_green = 13
+elf_blue = 14
 
 sum = 0
 power_sum = 0
@@ -16,9 +16,9 @@ power_sum = 0
 # lines.each do |line|
 File.open("input.txt").each do |line|
     # find the max blue, r, g shown in each game
-    blues = line.scan(/(\d+) blue/).flatten.map{|num| num.to_i}
     reds = line.scan(/(\d+) red/).flatten.map{|num| num.to_i}
     greens = line.scan(/(\d+) green/).flatten.map{|num| num.to_i}
+    blues = line.scan(/(\d+) blue/).flatten.map{|num| num.to_i}
     
     blue_max = blues.max
     red_max = reds.max
@@ -26,17 +26,14 @@ File.open("input.txt").each do |line|
 
     # determine whether it's possible - max <= total
     if (blue_max <= elf_blue) && (green_max <= elf_green) && (red_max <= elf_red)
-        # if possible, add id to sum 
+        # if game is possible, add id to sum 
         sum += line.match(/Game (\d+)/)[1].to_i
     end
 
     # find 'power' of game - max number of each color multiplied
     power = blue_max * green_max * red_max
-    if (blue_max == 0) || (green_max == 0) || (red_max == 0)
-        puts "oh no, 0 max"
-        puts "game: #{line}"
-        puts "power for this game: #{power}"
-    end
+    # puts "game: #{line}"
+    # puts "power for this game: #{power}"
     power_sum += power
 end
 
