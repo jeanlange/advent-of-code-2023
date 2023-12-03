@@ -1,3 +1,28 @@
+
+class Game
+    attr_reader :red, :green, :blue, :id
+
+    def initialize(text)
+        @id = text.match(/Game (\d+):/)[1].to_i
+        @text = text
+
+        @red = color_max("red")
+        @green = color_max("green")
+        @blue = color_max("blue")
+    end
+
+    def color_max(color)
+        @text.scan(/(\d+) #{color}/).flatten.map(&:to_i).max
+    end
+
+    def power
+        @red * @blue * @green
+    end
+
+    def possible?(elf)
+        (@red <= elf[:red]) && (@green <= elf[:green]) && (@blue <= elf[:blue])
+    end
+end
 lines = [
     "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
     "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue",
@@ -6,35 +31,19 @@ lines = [
     "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"
 ]
 
-elf_red = 12
-elf_green = 13
-elf_blue = 14
-
 sum = 0
 power_sum = 0
 
 # lines.each do |line|
 File.open("input.txt").each do |line|
-    # find the max blue, r, g shown in each game
-    reds = line.scan(/(\d+) red/).flatten.map{|num| num.to_i}
-    greens = line.scan(/(\d+) green/).flatten.map{|num| num.to_i}
-    blues = line.scan(/(\d+) blue/).flatten.map{|num| num.to_i}
-    
-    blue_max = blues.max
-    red_max = reds.max
-    green_max = greens.max
+    game = Game.new(line)
 
-    # determine whether it's possible - max <= total
-    if (blue_max <= elf_blue) && (green_max <= elf_green) && (red_max <= elf_red)
-        # if game is possible, add id to sum 
-        sum += line.match(/Game (\d+)/)[1].to_i
+    elf_dice = {red: 12, green: 13, blue: 14}
+    if game.possible?(elf_dice)
+        sum += game.id
     end
 
-    # find 'power' of game - max number of each color multiplied
-    power = blue_max * green_max * red_max
-    # puts "game: #{line}"
-    # puts "power for this game: #{power}"
-    power_sum += power
+    power_sum += game.power
 end
 
 puts "sum: #{sum}"
