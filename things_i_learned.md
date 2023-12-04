@@ -1,3 +1,6 @@
+## Day 3
+* sometimes it's not `gsub`. Sometimes `sub` is actually what you want.
+* `File.readlines("name")`
 ## Days 1/2
 * Use a class to parse each line
 * I want 'scan', not 'match', to find multiple regex matches
