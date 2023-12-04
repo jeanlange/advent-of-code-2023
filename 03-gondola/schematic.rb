@@ -1,3 +1,13 @@
+def is_symbol?(grid, row, col)
+    non_symbols = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "\n"]
+    in_bounds = (row > 0) && (col > 0) && (row < grid.length - 1) && (col < grid.first.length - 1)
+
+    if in_bounds
+        return !(non_symbols.include? grid[row][col])
+    end
+    return false
+end
+
 lines = [
     "467..114..",
     "...*......",
@@ -15,121 +25,47 @@ lines = File.readlines("input.txt")
 
 debug = false
 nums = (0..9).to_a.map(&:to_s)
-not_symbols = []
-not_symbols << nums
-not_symbols << "." << "\n"
-not_symbols.flatten!
 sum = 0
 horizontal_max = lines[0].length - 1
 vertical_max = lines.length - 1
 
 lines.each_with_index do |line, row|
     puts "line: #{line}" if debug
+    # as long as there are still numbers in the line
     while line.match(/\d+/)
         current_num = ""
         nearby_symbol = false
-        line.chars.each_with_index do |letter, col|
-            if nums.include? letter
-                current_num << letter
-                puts "row: #{row}, col: #{col}, symbol: #{letter}" if debug
+        # we want to find the next number and detect if it has a symbol neighbor
+        line.chars.each_with_index do |current_char, col|
+            # once we've started finding a number
+            if nums.include? current_char
+                # keep building up the current number
+                current_num << current_char
+
                 # if we haven't yet found a nearby symbol for this number
                 if !nearby_symbol
-                    # check the 8 positions around it
-                    # top left
-                    if (row > 0) && (col > 0)
-                        puts "checking up left" if debug
-                        if !(not_symbols.include? lines[row - 1][col - 1])
-                            nearby_symbol = true
-                            puts "found" if debug
-                            next
-                        end
-                    end
-                    # above
-                    if row > 0
-                        puts "checking up" if debug
-                        if !(not_symbols.include? lines[row - 1][col])
-                            nearby_symbol = true
-                            puts "found" if debug
-                            next
-                        end
-                    end
-                    # up right
-                    if (row > 0) && (col < horizontal_max)
-                        puts "checking up right" if debug
-                        if !(not_symbols.include? lines[row - 1][col + 1])
-                            nearby_symbol = true
-                            puts "found" if debug
-                            next
-                        end
-                    end
-                    # left
-                    if (col > 0)
-                        puts "checking left" if debug
-                        if !(not_symbols.include? lines[row][col - 1])
-                            nearby_symbol = true
-                            puts "found" if debug
-                            next
-                        end
-                    end
-                    # right
-                    if (col < horizontal_max)
-                        puts "checking right" if debug
-                        if !(not_symbols.include? lines[row][col + 1])
-                            nearby_symbol = true
-                            puts "found" if debug
-                            next
-                        end
-                    end
-                    # bottom left
-                    if (row < vertical_max) && (col > 0)
-                        puts "checking bottom left" if debug
-                        if !(not_symbols.include? lines[row + 1][col - 1])
-                            nearby_symbol = true
-                            puts "found" if debug
-                            next
-                        end
-                    end
-                    # bottom
-                    if (row < vertical_max)
-                        puts "checking bottom" if debug
-                        if !(not_symbols.include? lines[row + 1][col])
-                            nearby_symbol = true
-                            puts "found" if debug
-                            next
-                        end
-                    end
-                    # bottom right
-                    if (row < vertical_max) && (col < horizontal_max)
-                        puts "checking bottom right" if debug
-                        if !(not_symbols.include? lines[row + 1][col + 1])
-                            nearby_symbol = true
-                            puts "found" if debug
-                            next
+                    # check the 8 positions around it (plus it) for symbols
+                    (-1..1).each do |i|
+                        (-1..1).each do |j|
+                            if is_symbol?(lines, row + i, col + j)
+                                nearby_symbol = true
+                            end
                         end
                     end
                 end
+            # we've just finished a number, let's process it!
             elsif current_num != ""
                 break
             end
         end
-        puts current_num if debug
-        puts "row: #{row}, num: #{current_num}, valid: #{nearby_symbol}"
+        puts "row: #{row}, num: #{current_num}, valid: #{nearby_symbol}" if debug
         if nearby_symbol
             sum += current_num.to_i
         end
 
-        # replace number with .s
+        # replace number with .s so we can find the next one
         line.sub!(current_num, "." * current_num.length)
     end
 end
 
 puts sum
-
-# read whole thing into memory
-# for each line? nope - have to look at line above/below, too. Line with index
-# while I find a digit pattern? find the numbers
-# find out if the numbers are adjacent to a symbol
-    # look at 3 lines
-    # grid location of each digit, look in all 8 directions for anything not a number or period?
-    # stop looking once you've found it
-# if so, add them to a sum
