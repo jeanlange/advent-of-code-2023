@@ -1,3 +1,7 @@
+
+## Day 4
+* if counting `lines`, gotta actually change `lines`, not just what I'm `each`-ing over.
+* proud of myself for using a hash map :P
 ## Day 3
 * sometimes it's not `gsub`. Sometimes `sub` is actually what you want.
 * `File.readlines("name")`

@@ -23,6 +23,7 @@ lines = [
 #     "1" => 1,
 #     "2" => 3
 # }
+# and then sum up the values at the end
 
 total_cards = {}
 
@@ -41,8 +42,9 @@ lines.each do |line|
         # add one of each of the next WINNER COUNT cards
         card.winners.length.times do
             next_id = card.id.to_i + id_to_add
+            # don't add card ids that don't exist
             if next_id <= lines.length
-                add_card(total_cards, (next_id).to_s)
+                add_card(total_cards, next_id.to_s)
                 id_to_add += 1
             end
         end
