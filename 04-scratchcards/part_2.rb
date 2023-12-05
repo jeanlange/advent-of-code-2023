@@ -1,9 +1,9 @@
-def add_card(hash, id)
+def add_card(hash, id, copies = 1)
     current_value = hash[id]
     if current_value
-        hash[id] = current_value + 1
+        hash[id] = current_value + copies
     else
-        hash[id] = 1
+        hash[id] = copies
     end
 end
 
@@ -36,17 +36,15 @@ lines.each do |line|
     add_card(total_cards, card.id)
     # puts "card #{card.id} has #{card.winners.length} winners"
 
-    # for each copy of the current card
-    total_cards[card.id].times do
-        id_to_add = 1
-        # add one of each of the next WINNER COUNT cards
-        card.winners.length.times do
-            next_id = card.id.to_i + id_to_add
-            # don't add card ids that don't exist
-            if next_id <= lines.length
-                add_card(total_cards, next_id.to_s)
-                id_to_add += 1
-            end
+    copies_of_current_card = total_cards[card.id]
+    id_to_add = 1
+    # add COPIES OF CURRENT CARD to each of the next WINNER COUNT cards
+    card.winners.length.times do
+        next_id = card.id.to_i + id_to_add
+        # don't add card ids that don't exist
+        if next_id <= lines.length
+            add_card(total_cards, next_id.to_s, copies_of_current_card)
+            id_to_add += 1
         end
     end
     # puts total_cards
