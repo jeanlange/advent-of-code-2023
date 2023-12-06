@@ -9,15 +9,15 @@ describe AlmanacRange do
         end
 
         it "finds the source start" do
-            expect(range.source_start).to eq 50
+            expect(range.source_start).to eq 98
         end
 
         it "finds the source end" do
-            expect(range.source_end).to eq 51
+            expect(range.source_end).to eq 99
         end
 
         it "stores an offset" do
-            expect(range.offset).to eq 48
+            expect(range.offset).to eq -48
         end
     end
 
@@ -25,11 +25,11 @@ describe AlmanacRange do
         let(:range) { AlmanacRange.new("50 98 2") }
 
         it "answers yes" do
-            expect(range.in_range?(51)).to eq true
+            expect(range.in_range?(99)).to eq true
         end
 
         it "answers no" do
-            expect(range.in_range?(55)).to eq false
+            expect(range.in_range?(105)).to eq false
         end
     end
 
@@ -37,7 +37,7 @@ describe AlmanacRange do
         let(:range) { AlmanacRange.new("50 98 2") }
 
         it "translates numbers in range" do
-            expect(range.translate(51)).to eq 99
+            expect(range.translate(99)).to eq 51
         end
 
         it "leaves alone numbers out of range" do
@@ -81,11 +81,11 @@ describe AlmanacMapper do
 
         context ".map" do
             it "can map using its first range line" do
-                expect(mapper.map(50)).to eq 98
+                expect(mapper.map(98)).to eq 50
             end
 
             it "can map using its second" do
-                expect(mapper.map(60)).to eq 58
+                expect(mapper.map(58)).to eq 60
             end
 
             it "can map numbers not covered by a range" do

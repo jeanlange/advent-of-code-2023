@@ -36,6 +36,9 @@ lines = [
     "56 93 4"
 ]
 
+lines = File.open("input.txt").readlines
+
+debug = false
 mappers = []
 seeds = []
 mapper = AlmanacMapper.new
@@ -44,11 +47,11 @@ mapper = AlmanacMapper.new
 lines.each do |line|
     if line.match(/seeds:/)
         seeds = line.split(":").last.split.map(&:to_i)
-        puts "Seeds: #{seeds}"
+        puts "Seeds: #{seeds}" if debug
     elsif line.match(/map:/)
         mapper = AlmanacMapper.new
         mapper.parse_title(line)
-    elsif line == ""
+    elsif line == "\n"
         if mapper.ranges.length > 0
             mappers << mapper
         end
@@ -58,17 +61,23 @@ lines.each do |line|
 end
 mappers << mapper
 
+puts mappers if debug
+
 distances = {}
 
+# follow each seed through all the mappers to find the locations
 seeds.each do |seed|
     input = seed
     mappers.each do |mapper|
         output = mapper.map(input)
-        puts "#{mapper.title}: #{input} => #{output}"
+        puts "#{mapper.title}: #{input} => #{output}" if debug
         input = output
     end
     distances[seed.to_s] = input
-    puts
+    puts if debug
 end
 
-puts distances
+puts distances if debug
+
+# find the smallest distance and report it
+puts distances.values.min

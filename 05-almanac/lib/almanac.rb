@@ -36,10 +36,10 @@ class AlmanacRange
     def initialize text
         @original_text = text
         parts = text.split
-        @source_start = parts[0].to_i
+        @source_start = parts[1].to_i
         width = parts[2].to_i
         @source_end = @source_start + width - 1
-        destination_start = parts[1].to_i
+        destination_start = parts[0].to_i
         @offset = destination_start - @source_start
     end
 
