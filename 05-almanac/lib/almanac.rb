@@ -15,6 +15,19 @@ class AlmanacMapper
     def add_range text
         @ranges << AlmanacRange.new(text)
     end
+
+    def map source
+        @ranges.each do |range|
+            if range.in_range? source
+                return range.translate source
+            end
+        end
+        return source
+    end
+
+    def to_s
+        "#{@title}: #{ranges.length} ranges"
+    end
 end
 
 class AlmanacRange
@@ -39,5 +52,9 @@ class AlmanacRange
 
     def in_range? input
         input >= @source_start && input <= @source_end
+    end
+
+    def to_s
+        original_text
     end
 end

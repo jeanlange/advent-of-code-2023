@@ -71,13 +71,26 @@ describe AlmanacMapper do
     end
 
     context "a mapper with multiple ranges" do
-        it "can map using its first range line" do
-        end
+        let(:mapper) {
+            a = AlmanacMapper.new()
+            a.parse_title(lines[0])
+            a.add_range(lines[1])
+            a.add_range(lines[2])
+            a
+        }
 
-        it "can map using its second" do
-        end
+        context ".map" do
+            it "can map using its first range line" do
+                expect(mapper.map(50)).to eq 98
+            end
 
-        it "can map numbers not covered by a range" do
-        end
+            it "can map using its second" do
+                expect(mapper.map(60)).to eq 58
+            end
 
+            it "can map numbers not covered by a range" do
+                expect(mapper.map(1)).to eq 1
+            end
+        end
+    end
 end
