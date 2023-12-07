@@ -1,28 +1,8 @@
+require "./lib/races"
 lines = [
     "Time:      7  15   30",
     "Distance:  9  40  200"
 ]
-
-class Race
-    attr_accessor :time, :distance_to_beat
-
-    def initialize(t, d)
-        @time = t
-        @distance_to_beat = d
-    end
-
-    def to_s
-        "time: #{@time}, distance to beat: #{distance_to_beat}"
-    end
-
-    def ways_to_win
-        starting_point = @time / 2
-        
-        return 4 if @time == 7
-        return 8 if @time == 15
-        return 9 if @time == 30
-    end
-end
 
 better_lines = []
 lines.each do |line|
