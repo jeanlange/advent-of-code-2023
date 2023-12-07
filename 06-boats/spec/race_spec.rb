@@ -15,4 +15,9 @@ describe Race do
         r = Race.new(30, 200)
         expect(r.ways_to_win).to eq 9
     end
+
+    it "can do some other even one" do
+        r = Race.new(30, 210)
+        expect(r.ways_to_win).to eq 7
+    end
 end

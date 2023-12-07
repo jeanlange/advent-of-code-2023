@@ -9,6 +9,16 @@ lines = [
     "Distance:   277   1338   1349   1063"
 ]
 
+lines = [
+    "Time:      71530",
+    "Distance:  940200"
+]
+
+lines = [
+    "Time:        40829166",
+    "Distance:   277133813491063"
+]
+
 better_lines = []
 lines.each do |line|
     better_lines << line.split(":").last.split.map(&:to_i)

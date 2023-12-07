@@ -1,6 +1,8 @@
 # what is this
 I'm working through the [Advent of Code for 2023](https://adventofcode.com/2023). Let's see how I do on the streak this time! My intention is to do each day on its day.
 # Things I learned
+## Day 6
+* sometimes you don't have to think the math puzzle ALL THE WAY through, just some of the way through is fine. As always, writing down examples is helpful
 ## Day 4
 * if counting `lines`, gotta actually change `lines`, not just what I'm `each`-ing over.
 * proud of myself for using a hash map :P

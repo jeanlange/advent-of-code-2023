@@ -17,6 +17,7 @@ class Race
         (1..mid_point).each do |try|
             # puts "trying #{try}"
             result = (@time - try) * try
+            # puts "#{try}: #{result} (#{result > @distance_to_beat})"
             if result > @distance_to_beat
                 first_good = try
                 break
