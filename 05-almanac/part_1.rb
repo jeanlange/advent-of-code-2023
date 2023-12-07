@@ -36,7 +36,7 @@ lines = [
     "56 93 4"
 ]
 
-lines = File.open("input.txt").readlines
+# lines = File.open("input.txt").readlines
 
 debug = false
 mappers = []

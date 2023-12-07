@@ -25,3 +25,15 @@ And then I have to map through repeated maps.
 map to string:
 Map: [name]
 input [input type] [input] is in range [text] and corresponds to destination [output type] [output]
+
+
+
+=== part 2! ===
+Thoughts about optimization.
+* truncate numbers somehow?
+* where can I use a hash?
+* working backwards?
+* can I not repeat lookups somehow?
+* can I invalidate large swaths of possibilities?
+* check fewer ranges by ordering them
+* spend time on building instead of on checking against built thing

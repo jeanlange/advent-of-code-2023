@@ -36,6 +36,8 @@ lines = [
     "56 93 4"
 ]
 
+lines = File.open("input.txt").readlines
+
 mappers = []
 seeds = []
 mapper = AlmanacMapper.new
@@ -63,17 +65,20 @@ min_distance = nil
 (seeds.length / 2).times do
     current_seed = seeds.shift
     how_many = seeds.shift
+    puts "working on #{current_seed}"
 
     (0...how_many).each do |addor|
         input = current_seed + addor
         mappers.each do |mapper|
             output = mapper.map(input)
-            puts "#{mapper.title}: #{input} => #{output}"
+            # puts "#{mapper.title}: #{input} => #{output}"
             input = output
         end
         min_distance = input if (min_distance.nil? || input < min_distance)
     end
 end
+
+puts min_distance
 
 # seeds.each do |seed|
 #     input = seed
